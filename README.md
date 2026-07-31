@@ -1,2 +1,2 @@
-# playwright-automation-portfolio
+# QA-portfolio
 Some pet practice
