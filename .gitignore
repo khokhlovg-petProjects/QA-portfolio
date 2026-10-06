@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# Local secrets and session state
+.env
+state.json
+
+# Test artifacts
+allure-results/
+allure-report/
+test-results/
+videos/
+traces/

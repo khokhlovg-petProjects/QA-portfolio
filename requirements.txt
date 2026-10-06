@@ -1,0 +1,8 @@
+pytest>=8.3
+pytest-playwright>=0.6
+pytest-xdist>=3.6
+playwright>=1.49
+allure-pytest>=2.13
+requests>=2.32
+pydantic[email]>=2.10
+pydantic-settings>=2.7
