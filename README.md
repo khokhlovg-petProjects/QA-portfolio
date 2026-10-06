@@ -1,5 +1,7 @@
 # QA automation portfolio
 
+[![tests](https://github.com/khokhlovg-petProjects/QA-portfolio/actions/workflows/tests.yml/badge.svg)](https://github.com/khokhlovg-petProjects/QA-portfolio/actions/workflows/tests.yml)
+
 A test suite built the way I build them at work: three layers that fail for
 different reasons, each able to run on its own, with reports that can be read
 without reproducing the failure locally.
