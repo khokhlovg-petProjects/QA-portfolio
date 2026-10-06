@@ -20,8 +20,6 @@ from pages.inventory_page import InventoryPage
 from pages.login_page import LoginPage
 from settings import settings
 
-STORAGE_STATE = Path("state.json")
-
 #: Fixtures that hand a test a browser page, in the order we look for one when
 #: a test fails and we want a screenshot.
 PAGE_FIXTURES = ("logged_in_page", "page")
@@ -51,13 +49,23 @@ def base_url(request: pytest.FixtureRequest) -> str:
 
 
 @pytest.fixture(scope="session")
-def storage_state(browser: Browser, browser_context_args: dict) -> Path:
+def storage_state(
+    browser: Browser,
+    browser_context_args: dict,
+    tmp_path_factory: pytest.TempPathFactory,
+) -> Path:
     """Log in once per session and hand back a reusable session file.
 
     Authentication is covered by its own tests; repeating it before every other
     UI test only adds wall-clock time, and on a suite large enough to matter it
     adds CI minutes too.
+
+    The file lives in pytest's temp directory rather than at a fixed path
+    because under xdist each worker runs its own session. A shared filename
+    would have several workers writing it at the same moment, and one of them
+    reading it half-written.
     """
+    state_path = tmp_path_factory.getbasetemp() / "storage-state.json"
     context = browser.new_context(**browser_context_args)
     page = context.new_page()
 
@@ -66,9 +74,9 @@ def storage_state(browser: Browser, browser_context_args: dict) -> Path:
     # state has to be saved after the navigation settles, not after the click.
     expect(inventory.items.first).to_be_visible()
 
-    context.storage_state(path=STORAGE_STATE)
+    context.storage_state(path=state_path)
     context.close()
-    return STORAGE_STATE
+    return state_path
 
 
 @pytest.fixture
